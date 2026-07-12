@@ -1,5 +1,5 @@
 {
-  "updatedAt": null,
+  "updatedAt": "2026-07-12T20:21:27+09:00",
   "agents": [
     {
       "id": "01",
@@ -8,7 +8,9 @@
       "interval": "daily",
       "scheduleLabel": "毎日20:30ごろ",
       "schedule": { "hour": 20, "minute": 30 },
-      "runs": []
+      "runs": [
+        { "timestamp": "2026-07-12T20:21:27+09:00", "status": "success" }
+      ]
     },
     {
       "id": "02",
