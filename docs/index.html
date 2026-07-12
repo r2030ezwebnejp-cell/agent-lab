@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>エージェント稼働状況ダッシュボード</title>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --card-bg: #ffffff;
+    --text: #1c1f26;
+    --text-sub: #6b7280;
+    --border: #e5e7eb;
+    --green: #16a34a;
+    --amber: #d97706;
+    --red: #dc2626;
+    --blue: #2563eb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1115;
+      --card-bg: #1a1d24;
+      --text: #e5e7eb;
+      --text-sub: #9ca3af;
+      --border: #2a2e37;
+      --green: #4ade80;
+      --amber: #fbbf24;
+      --red: #f87171;
+      --blue: #60a5fa;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1115;
+    --card-bg: #1a1d24;
+    --text: #e5e7eb;
+    --text-sub: #9ca3af;
+    --border: #2a2e37;
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --blue: #60a5fa;
+  }
+  :root[data-theme="light"] {
+    --bg: #f5f6f8;
+    --card-bg: #ffffff;
+    --text: #1c1f26;
+    --text-sub: #6b7280;
+    --border: #e5e7eb;
+    --green: #16a34a;
+    --amber: #d97706;
+    --red: #dc2626;
+    --blue: #2563eb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    padding: 20px 16px 60px;
+  }
+  header {
+    max-width: 960px;
+    margin: 0 auto 20px;
+  }
+  h1 {
+    font-size: 1.3rem;
+    margin: 0 0 4px;
+  }
+  .updated {
+    font-size: 0.8rem;
+    color: var(--text-sub);
+  }
+  .grid {
+    max-width: 960px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .card-title {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .badge {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .badge.ok { background: color-mix(in srgb, var(--green) 18%, transparent); color: var(--green); }
+  .badge.warn { background: color-mix(in srgb, var(--amber) 18%, transparent); color: var(--amber); }
+  .badge.bad { background: color-mix(in srgb, var(--red) 18%, transparent); color: var(--red); }
+  .badge.manual { background: color-mix(in srgb, var(--blue) 18%, transparent); color: var(--blue); }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    padding: 5px 0;
+    border-top: 1px solid var(--border);
+  }
+  .row:first-of-type { border-top: none; }
+  .row .label { color: var(--text-sub); }
+  .row .value { font-weight: 600; text-align: right; }
+  .schedule {
+    font-size: 0.75rem;
+    color: var(--text-sub);
+    margin-top: 2px;
+  }
+  .empty {
+    text-align: center;
+    color: var(--text-sub);
+    padding: 40px 0;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>エージェント稼働状況ダッシュボード</h1>
+  <div class="updated" id="updated">読み込み中...</div>
+</header>
+<div class="grid" id="grid"></div>
+
+<script>
+async function main() {
+  const grid = document.getElementById('grid');
+  const updatedEl = document.getElementById('updated');
+  let data;
+  try {
+    const res = await fetch('data/status.json?_=' + Date.now());
+    data = await res.json();
+  } catch (e) {
+    grid.innerHTML = '<div class="empty">データの読み込みに失敗しました</div>';
+    return;
+  }
+
+  updatedEl.textContent = data.updatedAt
+    ? '最終更新: ' + formatDateTime(data.updatedAt)
+    : '最終更新: まだ記録がありません';
+
+  grid.innerHTML = data.agents.map(renderCard).join('');
+}
+
+function formatDateTime(iso) {
+  const d = new Date(iso);
+  return d.toLocaleString('ja-JP', { dateStyle: 'medium', timeStyle: 'short' });
+}
+
+function daysAgoLabel(iso) {
+  const diffMs = Date.now() - new Date(iso).getTime();
+  const days = Math.floor(diffMs / 86400000);
+  if (days <= 0) return '今日';
+  if (days === 1) return '1日前';
+  return days + '日前';
+}
+
+function computeNextScheduled(agent) {
+  if (!agent.schedule) return '—';
+  const now = new Date();
+  const next = new Date(now);
+  next.setSeconds(0, 0);
+  next.setHours(agent.schedule.hour, agent.schedule.minute, 0, 0);
+
+  if (agent.interval === 'daily') {
+    if (next <= now) next.setDate(next.getDate() + 1);
+  } else if (agent.interval === 'weekly') {
+    const targetDow = agent.schedule.weekday;
+    let diff = (targetDow - next.getDay() + 7) % 7;
+    if (diff === 0 && next <= now) diff = 7;
+    next.setDate(next.getDate() + diff);
+  }
+  return formatDateTime(next.toISOString());
+}
+
+function computeRate(runs, interval, windowDays) {
+  const since = Date.now() - windowDays * 86400000;
+  const inWindow = runs.filter(r => new Date(r.timestamp).getTime() >= since);
+  if (inWindow.length === 0) return null;
+  const successCount = inWindow.filter(r => r.status === 'success').length;
+  const expected = interval === 'weekly' ? Math.max(1, Math.round(windowDays / 7)) : windowDays;
+  const rate = Math.min(100, Math.round((successCount / expected) * 100));
+  return rate;
+}
+
+function computeStreak(runs) {
+  const sorted = [...runs].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  let streak = 0;
+  for (const r of sorted) {
+    if (r.status === 'success') streak++;
+    else break;
+  }
+  return streak;
+}
+
+function renderCard(agent) {
+  const runs = agent.runs || [];
+  const lastRun = runs.length ? [...runs].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0] : null;
+
+  let badge = '<span class="badge manual">手動</span>';
+  if (agent.type === 'auto') {
+    if (!lastRun) {
+      badge = '<span class="badge warn">未実行</span>';
+    } else if (lastRun.status === 'success') {
+      badge = '<span class="badge ok">正常</span>';
+    } else {
+      badge = '<span class="badge bad">失敗</span>';
+    }
+  }
+
+  const rows = [];
+  rows.push(row('直近実行', lastRun ? formatDateTime(lastRun.timestamp) + '(' + daysAgoLabel(lastRun.timestamp) + ')' : '記録なし'));
+
+  if (agent.type === 'auto') {
+    rows.push(row('次回予定', computeNextScheduled(agent)));
+    const rate30 = computeRate(runs, agent.interval, 30);
+    rows.push(row('直近30日稼働率', rate30 === null ? '—' : rate30 + '%'));
+    const rate7 = computeRate(runs, agent.interval, 7);
+    rows.push(row('直近7日稼働率', rate7 === null ? '—' : rate7 + '%'));
+    rows.push(row('連続稼働', computeStreak(runs) + '回'));
+  } else {
+    const last30 = runs.filter(r => Date.now() - new Date(r.timestamp).getTime() <= 30 * 86400000);
+    rows.push(row('直近30日の依頼件数', last30.length + '件'));
+  }
+
+  return `
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">${escapeHtml(agent.id)}. ${escapeHtml(agent.name)}</div>
+          <div class="schedule">${escapeHtml(agent.scheduleLabel)}</div>
+        </div>
+        ${badge}
+      </div>
+      ${rows.join('')}
+    </div>
+  `;
+}
+
+function row(label, value) {
+  return `<div class="row"><span class="label">${escapeHtml(label)}</span><span class="value">${escapeHtml(value)}</span></div>`;
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+main();
+</script>
+</body>
+</html>

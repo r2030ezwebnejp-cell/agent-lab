@@ -1,0 +1,59 @@
+{
+  "updatedAt": null,
+  "agents": [
+    {
+      "id": "01",
+      "name": "AI Info Gather Agent",
+      "type": "auto",
+      "interval": "daily",
+      "scheduleLabel": "毎日20:30ごろ",
+      "schedule": { "hour": 20, "minute": 30 },
+      "runs": []
+    },
+    {
+      "id": "02",
+      "name": "Case Study Agent",
+      "type": "auto",
+      "interval": "daily",
+      "scheduleLabel": "毎日20:30ごろ",
+      "schedule": { "hour": 20, "minute": 30 },
+      "runs": []
+    },
+    {
+      "id": "03",
+      "name": "Self Management Agent",
+      "type": "auto",
+      "interval": "weekly",
+      "scheduleLabel": "毎週日曜10:00ごろ(週次集計)",
+      "schedule": { "weekday": 0, "hour": 10, "minute": 0 },
+      "runs": []
+    },
+    {
+      "id": "04",
+      "name": "Business Email & Document Draft Agent",
+      "type": "manual",
+      "interval": "on_demand",
+      "scheduleLabel": "手動依頼時",
+      "schedule": null,
+      "runs": []
+    },
+    {
+      "id": "05",
+      "name": "English Reading Agent",
+      "type": "manual",
+      "interval": "on_demand",
+      "scheduleLabel": "手動依頼時",
+      "schedule": null,
+      "runs": []
+    },
+    {
+      "id": "06",
+      "name": "Business Knowledge Agent",
+      "type": "auto",
+      "interval": "daily",
+      "scheduleLabel": "毎日20:30ごろ",
+      "schedule": { "hour": 20, "minute": 30 },
+      "runs": []
+    }
+  ]
+}
