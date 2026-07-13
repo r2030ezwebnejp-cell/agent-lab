@@ -1,23 +1,27 @@
 {
-  "updatedAt": null,
+  "updatedAt": "2026-07-13T19:14:21+09:00",
   "agents": [
     {
       "id": "01",
       "name": "AI Info Gather Agent",
       "type": "auto",
       "interval": "daily",
-      "scheduleLabel": "毎日20:30ごろ",
-      "schedule": { "hour": 20, "minute": 30 },
-      "runs": []
+      "scheduleLabel": "毎日19:00〜19:10ごろ",
+      "schedule": { "hour": 19, "minute": 10 },
+      "runs": [
+        { "timestamp": "2026-07-13T19:14:21+09:00", "status": "success" }
+      ]
     },
     {
       "id": "02",
       "name": "Case Study Agent",
       "type": "auto",
       "interval": "daily",
-      "scheduleLabel": "毎日20:30ごろ",
-      "schedule": { "hour": 20, "minute": 30 },
-      "runs": []
+      "scheduleLabel": "毎日19:00〜19:10ごろ",
+      "schedule": { "hour": 19, "minute": 10 },
+      "runs": [
+        { "timestamp": "2026-07-13T19:09:16+09:00", "status": "success" }
+      ]
     },
     {
       "id": "03",
@@ -51,9 +55,11 @@
       "name": "Business Knowledge Agent",
       "type": "auto",
       "interval": "daily",
-      "scheduleLabel": "毎日20:30ごろ",
-      "schedule": { "hour": 20, "minute": 30 },
-      "runs": []
+      "scheduleLabel": "毎日19:00〜19:10ごろ",
+      "schedule": { "hour": 19, "minute": 10 },
+      "runs": [
+        { "timestamp": "2026-07-13T19:11:42+09:00", "status": "success" }
+      ]
     }
   ]
 }
