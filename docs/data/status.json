@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-13T19:14:21+09:00",
+  "updatedAt": "2026-07-13T23:32:35+09:00",
   "agents": [
     {
       "id": "01",
@@ -39,7 +39,12 @@
       "interval": "on_demand",
       "scheduleLabel": "手動依頼時",
       "schedule": null,
-      "runs": []
+      "runs": [
+        { "timestamp": "2026-07-08T20:57:17+09:00", "status": "success" },
+        { "timestamp": "2026-07-09T22:10:44+09:00", "status": "success" },
+        { "timestamp": "2026-07-12T10:11:53+09:00", "status": "success" },
+        { "timestamp": "2026-07-13T23:28:24+09:00", "status": "success" }
+      ]
     },
     {
       "id": "05",
@@ -48,7 +53,10 @@
       "interval": "on_demand",
       "scheduleLabel": "手動依頼時",
       "schedule": null,
-      "runs": []
+      "runs": [
+        { "timestamp": "2026-07-08T21:32:10+09:00", "status": "success" },
+        { "timestamp": "2026-07-13T23:32:35+09:00", "status": "success" }
+      ]
     },
     {
       "id": "06",
