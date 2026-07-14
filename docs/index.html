@@ -167,24 +167,6 @@ function daysAgoLabel(iso) {
   return days + '日前';
 }
 
-function computeNextScheduled(agent) {
-  if (!agent.schedule) return '—';
-  const now = new Date();
-  const next = new Date(now);
-  next.setSeconds(0, 0);
-  next.setHours(agent.schedule.hour, agent.schedule.minute, 0, 0);
-
-  if (agent.interval === 'daily') {
-    if (next <= now) next.setDate(next.getDate() + 1);
-  } else if (agent.interval === 'weekly') {
-    const targetDow = agent.schedule.weekday;
-    let diff = (targetDow - next.getDay() + 7) % 7;
-    if (diff === 0 && next <= now) diff = 7;
-    next.setDate(next.getDate() + diff);
-  }
-  return formatDateTime(next.toISOString());
-}
-
 function getMonthStart() {
   const now = new Date();
   return new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
@@ -228,9 +210,6 @@ function renderCard(agent) {
 
   const rows = [];
   rows.push(row('直近実行', lastRun ? formatDateTime(lastRun.timestamp) + '(' + daysAgoLabel(lastRun.timestamp) + ')' : '記録なし'));
-  if (agent.schedule) {
-    rows.push(row('次回予定', computeNextScheduled(agent)));
-  }
   rows.push(row('今月の稼働回数', computeCountSince(runs, getMonthStart()) + '回'));
   rows.push(row('今週の稼働回数', computeCountSince(runs, getWeekStart()) + '回'));
   rows.push(row('連続稼働', computeStreak(runs) + '回'));
