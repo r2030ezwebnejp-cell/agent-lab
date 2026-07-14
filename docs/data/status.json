@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-14T21:34:34+09:00",
+  "updatedAt": "2026-07-14T22:12:22+09:00",
   "agents": [
     {
       "id": "01",
@@ -9,6 +9,9 @@
       "scheduleLabel": "毎日19:00〜19:10ごろ",
       "schedule": { "hour": 19, "minute": 10 },
       "runs": [
+        { "timestamp": "2026-07-08T20:46:18+09:00", "status": "success" },
+        { "timestamp": "2026-07-09T19:10:27+09:00", "status": "success" },
+        { "timestamp": "2026-07-12T09:32:04+09:00", "status": "success" },
         { "timestamp": "2026-07-13T19:14:21+09:00", "status": "success" },
         { "timestamp": "2026-07-14T19:12:44+09:00", "status": "success" }
       ]
@@ -21,6 +24,9 @@
       "scheduleLabel": "毎日19:00〜19:10ごろ",
       "schedule": { "hour": 19, "minute": 10 },
       "runs": [
+        { "timestamp": "2026-07-08T20:50:31+09:00", "status": "success" },
+        { "timestamp": "2026-07-09T19:10:52+09:00", "status": "success" },
+        { "timestamp": "2026-07-12T09:28:00+09:00", "status": "success" },
         { "timestamp": "2026-07-13T19:09:16+09:00", "status": "success" },
         { "timestamp": "2026-07-14T19:11:56+09:00", "status": "success" }
       ]
@@ -70,6 +76,9 @@
       "scheduleLabel": "毎日19:00〜19:10ごろ",
       "schedule": { "hour": 19, "minute": 10 },
       "runs": [
+        { "timestamp": "2026-07-08T20:52:37+09:00", "status": "success" },
+        { "timestamp": "2026-07-09T19:49:27+09:00", "status": "success" },
+        { "timestamp": "2026-07-12T09:24:45+09:00", "status": "success" },
         { "timestamp": "2026-07-13T19:11:42+09:00", "status": "success" },
         { "timestamp": "2026-07-14T19:04:59+09:00", "status": "success" }
       ]
