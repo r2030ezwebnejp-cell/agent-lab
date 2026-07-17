@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>設定 — Agent Lab</title>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --card-bg: #ffffff;
+    --text: #1c1f26;
+    --text-sub: #6b7280;
+    --border: #e5e7eb;
+    --green: #16a34a;
+    --amber: #d97706;
+    --red: #dc2626;
+    --accent: #1D5FD6;
+    --accent-soft: #e8f0fd;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1115;
+      --card-bg: #1a1d24;
+      --text: #e5e7eb;
+      --text-sub: #9ca3af;
+      --border: #2a2e37;
+      --green: #4ade80;
+      --amber: #fbbf24;
+      --red: #f87171;
+      --accent: #6ea3f2;
+      --accent-soft: #1a2740;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1115; --card-bg: #1a1d24; --text: #e5e7eb; --text-sub: #9ca3af;
+    --border: #2a2e37; --green: #4ade80; --amber: #fbbf24; --red: #f87171;
+    --accent: #6ea3f2; --accent-soft: #1a2740;
+  }
+  :root[data-theme="light"] {
+    --bg: #f5f6f8; --card-bg: #ffffff; --text: #1c1f26; --text-sub: #6b7280;
+    --border: #e5e7eb; --green: #16a34a; --amber: #d97706; --red: #dc2626;
+    --accent: #1D5FD6; --accent-soft: #e8f0fd;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    padding: 20px 16px 80px;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  header { margin-bottom: 24px; }
+  h1 { font-size: 1.3rem; margin: 0 0 4px; }
+  .sub { font-size: 0.85rem; color: var(--text-sub); }
+  nav.top a {
+    font-size: 0.85rem;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  #lockScreen {
+    max-width: 360px;
+    margin: 20vh auto 0;
+    text-align: center;
+  }
+  #lockScreen input {
+    width: 100%;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text);
+    margin: 12px 0;
+  }
+  #lockScreen button, .btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  #lockError { color: var(--red); font-size: 0.8rem; min-height: 1.2em; }
+
+  #app { display: none; }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+  }
+  .card h2 { font-size: 1rem; margin: 0 0 4px; }
+  .card .desc { font-size: 0.8rem; color: var(--text-sub); margin: 0 0 14px; }
+
+  label {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-sub);
+    margin: 10px 0 4px;
+  }
+  select, input[type="date"], input[type="time"], input[type="text"], input[type="url"], textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 0.9rem;
+    font-family: inherit;
+  }
+  textarea { min-height: 70px; resize: vertical; }
+
+  .run-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  .run-grid button {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .run-grid button:hover { background: var(--accent); color: #fff; }
+
+  .submit-row { margin-top: 14px; }
+  .hint {
+    font-size: 0.72rem;
+    color: var(--text-sub);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  .req-list { font-size: 0.85rem; }
+  .req-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 0;
+    border-top: 1px solid var(--border);
+  }
+  .req-item:first-child { border-top: none; }
+  .req-title { flex: 1; }
+  .req-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+    height: fit-content;
+  }
+  .req-badge.open { background: color-mix(in srgb, var(--amber) 18%, transparent); color: var(--amber); }
+  .req-badge.closed { background: color-mix(in srgb, var(--green) 18%, transparent); color: var(--green); }
+</style>
+</head>
+<body>
+
+<div id="lockScreen">
+  <h1>設定画面</h1>
+  <p class="sub">PINを入力してください</p>
+  <input type="password" id="pinInput" autocomplete="off" maxlength="12">
+  <div id="lockError"></div>
+  <button onclick="tryUnlock()">開く</button>
+</div>
+
+<div id="app">
+  <div class="wrap">
+    <header>
+      <nav class="top"><a href="index.html">← ダッシュボードに戻る</a></nav>
+      <h1>設定</h1>
+      <p class="sub">ここで送った操作はGitHub Issueとして送信され、次に「/agent-lab-requests」を実行したときに処理されます(即時ではありません)</p>
+    </header>
+
+    <div class="card">
+      <h2>手動実行</h2>
+      <p class="desc">対象エージェントを今すぐ実行するリクエストを送ります(04・05は対話が必須なため非対応)</p>
+      <div class="run-grid" id="runButtons"></div>
+    </div>
+
+    <div class="card">
+      <h2>スケジュール変更</h2>
+      <p class="desc">自動実行の時刻を変更するリクエストを送ります</p>
+      <label>対象エージェント</label>
+      <select id="schAgent"></select>
+      <div id="schWeekdayRow" style="display:none">
+        <label>曜日</label>
+        <select id="schWeekday">
+          <option value="0">日曜</option><option value="1">月曜</option><option value="2">火曜</option>
+          <option value="3">水曜</option><option value="4">木曜</option><option value="5">金曜</option><option value="6">土曜</option>
+        </select>
+      </div>
+      <label>時刻</label>
+      <input type="time" id="schTime" value="20:30">
+      <div class="submit-row"><button class="btn" onclick="submitSchedule()">GitHubで送信</button></div>
+    </div>
+
+    <div class="card">
+      <h2>note公開URLの紐付け</h2>
+      <p class="desc">実績一覧ページに表示する、公開後のnote記事URLを登録します</p>
+      <label>対象エージェント</label>
+      <select id="urlAgent"></select>
+      <label>下書きの日付</label>
+      <input type="date" id="urlDate">
+      <label>note記事URL</label>
+      <input type="url" id="urlValue" placeholder="https://note.com/...">
+      <div class="submit-row"><button class="btn" onclick="submitNoteUrl()">GitHubで送信</button></div>
+    </div>
+
+    <div class="card">
+      <h2>お知らせ投稿</h2>
+      <p class="desc">サイトの「お知らせ」ページに載せる更新履歴を追加します</p>
+      <label>日付</label>
+      <input type="date" id="newsDate">
+      <label>タイトル</label>
+      <input type="text" id="newsTitle" placeholder="例: 実績一覧ページを追加しました">
+      <label>本文</label>
+      <textarea id="newsBody"></textarea>
+      <div class="submit-row"><button class="btn" onclick="submitNews()">GitHubで送信</button></div>
+    </div>
+
+    <div class="card">
+      <h2>表示テーマ</h2>
+      <p class="desc">サイト全体の配色を固定します(未設定なら閲覧者の端末設定に自動追従)</p>
+      <label>テーマ</label>
+      <select id="themeValue">
+        <option value="auto">自動(端末設定に追従)</option>
+        <option value="light">ライト固定</option>
+        <option value="dark">ダーク固定</option>
+      </select>
+      <div class="submit-row"><button class="btn" onclick="submitTheme()">GitHubで送信</button></div>
+    </div>
+
+    <div class="card">
+      <h2>直近のリクエスト</h2>
+      <p class="desc">送信済みリクエストの処理状況(オープン=未処理、クローズ=処理済み)</p>
+      <div class="req-list" id="reqList">読み込み中...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PIN = "XGLH8A";
+const REPO = "r2030ezwebnejp-cell/agents-status-dashboard";
+
+const AGENTS_AUTO = [
+  { id: '01', name: '01. AI Info Gather Agent' },
+  { id: '02', name: '02. Case Study Agent' },
+  { id: '03', name: '03. Self Management Agent(週次)' },
+  { id: '06', name: '06. Business Knowledge Agent' },
+];
+const AGENTS_NOTE = [
+  { id: '01', name: '01. AI Info Gather Agent' },
+  { id: '02', name: '02. Case Study Agent' },
+  { id: '04', name: '04. Business Email & Document Draft Agent' },
+  { id: '06', name: '06. Business Knowledge Agent' },
+];
+
+function tryUnlock() {
+  const val = document.getElementById('pinInput').value;
+  if (val === PIN) {
+    sessionStorage.setItem('agentlab_unlocked', '1');
+    showApp();
+  } else {
+    document.getElementById('lockError').textContent = 'PINが違います';
+  }
+}
+document.getElementById('pinInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') tryUnlock();
+});
+
+function showApp() {
+  document.getElementById('lockScreen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  init();
+}
+
+if (sessionStorage.getItem('agentlab_unlocked') === '1') {
+  showApp();
+}
+
+function openIssue(title, bodyLines) {
+  const params = new URLSearchParams({
+    title,
+    body: bodyLines.join('\n'),
+    labels: 'agent-lab-request',
+  });
+  window.open(`https://github.com/${REPO}/issues/new?${params.toString()}`, '_blank');
+}
+
+function init() {
+  const runGrid = document.getElementById('runButtons');
+  runGrid.innerHTML = AGENTS_AUTO.map(a =>
+    `<button onclick="submitRun('${a.id}','${a.name.replace(/'/g, "\\'")}')">${escapeHtml(a.name)}</button>`
+  ).join('');
+
+  const schSel = document.getElementById('schAgent');
+  schSel.innerHTML = AGENTS_AUTO.map(a => `<option value="${a.id}">${escapeHtml(a.name)}</option>`).join('');
+  schSel.addEventListener('change', () => {
+    document.getElementById('schWeekdayRow').style.display = schSel.value === '03' ? 'block' : 'none';
+  });
+
+  const urlSel = document.getElementById('urlAgent');
+  urlSel.innerHTML = AGENTS_NOTE.map(a => `<option value="${a.id}">${escapeHtml(a.name)}</option>`).join('');
+
+  loadRequests();
+}
+
+function submitRun(id, name) {
+  openIssue(`[run] ${name} を今すぐ実行`, [
+    'type: run',
+    `agent_id: ${id}`,
+  ]);
+}
+
+function submitSchedule() {
+  const id = document.getElementById('schAgent').value;
+  const time = document.getElementById('schTime').value;
+  const lines = ['type: schedule', `agent_id: ${id}`, `time: ${time}`];
+  if (id === '03') {
+    lines.push(`weekday: ${document.getElementById('schWeekday').value}`);
+  }
+  openIssue(`[schedule] エージェント${id}の実行時刻を${time}に変更`, lines);
+}
+
+function submitNoteUrl() {
+  const id = document.getElementById('urlAgent').value;
+  const date = document.getElementById('urlDate').value;
+  const url = document.getElementById('urlValue').value;
+  if (!date || !url) { alert('日付とURLを入力してください'); return; }
+  openIssue(`[note-url] エージェント${id} ${date}分のnote URL登録`, [
+    'type: note-url',
+    `agent_id: ${id}`,
+    `date: ${date}`,
+    `url: ${url}`,
+  ]);
+}
+
+function submitNews() {
+  const date = document.getElementById('newsDate').value;
+  const title = document.getElementById('newsTitle').value;
+  const body = document.getElementById('newsBody').value;
+  if (!date || !title) { alert('日付とタイトルを入力してください'); return; }
+  openIssue(`[news] お知らせ投稿: ${title}`, [
+    'type: news',
+    `date: ${date}`,
+    `title: ${title}`,
+    `body: ${body}`,
+  ]);
+}
+
+function submitTheme() {
+  const value = document.getElementById('themeValue').value;
+  openIssue(`[display] 表示テーマを${value}に変更`, [
+    'type: display',
+    'key: theme',
+    `value: ${value}`,
+  ]);
+}
+
+async function loadRequests() {
+  const listEl = document.getElementById('reqList');
+  try {
+    const res = await fetch(`https://api.github.com/repos/${REPO}/issues?labels=agent-lab-request&state=all&per_page=10`);
+    const issues = await res.json();
+    if (!Array.isArray(issues) || issues.length === 0) {
+      listEl.textContent = 'まだリクエストはありません';
+      return;
+    }
+    listEl.innerHTML = issues.map(i => `
+      <div class="req-item">
+        <span class="req-title">${escapeHtml(i.title)}</span>
+        <span class="req-badge ${i.state}">${i.state === 'open' ? '未処理' : '処理済み'}</span>
+      </div>
+    `).join('');
+  } catch (e) {
+    listEl.textContent = '読み込みに失敗しました';
+  }
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+</script>
+</body>
+</html>
