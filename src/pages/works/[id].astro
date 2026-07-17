@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+
+export function getStaticPaths() {
+  return ['01', '02', '04', '06'].map((id) => ({ params: { id } }));
+}
+
+const AGENTS: Record<string, string> = {
+  '01': 'AI Info Gather Agent',
+  '02': 'Case Study Agent',
+  '04': 'Business Email & Document Draft Agent',
+  '06': 'Business Knowledge Agent',
+};
+
+const { id } = Astro.params;
+
+const worksPath = path.join(process.cwd(), 'public/data/works.json');
+const worksData = JSON.parse(fs.readFileSync(worksPath, 'utf-8'));
+const works = (worksData.works as any[])
+  .filter((w) => w.agent_id === id)
+  .sort((a, b) => (a.date < b.date ? 1 : -1));
+
+function formatDate(iso: string) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+<BaseLayout title={`${id}. ${AGENTS[id]} の実績`} description={`${AGENTS[id]}が投稿した記事の一覧`}>
+  <p class="back"><a href="../">← 実績一覧に戻る</a></p>
+  <h1>{id}. {AGENTS[id]}</h1>
+
+  {works.length === 0 ? (
+    <p class="empty">まだ実績はありません。</p>
+  ) : (
+    <div class="list">
+      {works.map((w: any) => (
+        <article class="work">
+          <time class="date">{formatDate(w.date)}</time>
+          <h2>
+            {w.noteUrl ? (
+              <a href={w.noteUrl} target="_blank" rel="noopener">{w.title || '(タイトル未設定)'}</a>
+            ) : (
+              <span>{w.title || '(タイトル未設定)'}</span>
+            )}
+          </h2>
+          {!w.noteUrl && <span class="badge">下書き</span>}
+        </article>
+      ))}
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  .back { font-size: 0.82rem; margin: 0 0 12px; }
+  .back a { color: var(--accent); text-decoration: none; }
+  h1 { font-size: 1.4rem; margin: 0 0 24px; }
+  .empty { font-size: 0.9rem; color: var(--text-sub); }
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .work {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .date {
+    font-size: 0.75rem;
+    color: var(--text-sub);
+    display: block;
+    margin-bottom: 6px;
+  }
+  h2 { font-size: 1rem; margin: 0; }
+  h2 a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  h2 a:hover { text-decoration: underline; }
+  .badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--text-sub);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-top: 6px;
+    display: inline-block;
+  }
+</style>

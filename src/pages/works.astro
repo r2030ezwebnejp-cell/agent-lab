@@ -5,46 +5,65 @@ import path from 'node:path';
 
 const worksPath = path.join(process.cwd(), 'public/data/works.json');
 const worksData = JSON.parse(fs.readFileSync(worksPath, 'utf-8'));
-const works = [...worksData.works].sort((a: any, b: any) => (a.date < b.date ? 1 : -1));
+const works = worksData.works as any[];
 
-const AGENT_NAMES: Record<string, string> = {
-  '01': 'AI Info Gather Agent',
-  '02': 'Case Study Agent',
-  '04': 'Business Email & Document Draft Agent',
-  '06': 'Business Knowledge Agent',
-};
+const AGENTS = [
+  { id: '01', name: 'AI Info Gather Agent' },
+  { id: '02', name: 'Case Study Agent' },
+  { id: '04', name: 'Business Email & Document Draft Agent' },
+  { id: '06', name: 'Business Knowledge Agent' },
+];
 
-function formatDate(iso: string) {
-  const d = new Date(iso);
-  return d.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
+function toDateObj(dateStr: string) { return new Date(dateStr + 'T00:00:00Z'); }
+
+function computeStreak(dates: string[]) {
+  // dates: sorted descending (newest first)
+  if (dates.length === 0) return 0;
+  let streak = 1;
+  for (let i = 0; i < dates.length - 1; i++) {
+    const diffDays = (toDateObj(dates[i]).getTime() - toDateObj(dates[i + 1]).getTime()) / 86400000;
+    if (diffDays === 1) streak++; else break;
+  }
+  return streak;
 }
----
-<BaseLayout title="実績一覧" description="Agent Labが生成したnote記事の一覧">
-  <h1>実績一覧</h1>
-  <p class="lead">各エージェントが作成したnote記事の一覧です。公開済みのものはリンクから読めます。</p>
 
-  {works.length === 0 ? (
-    <p class="empty">まだ実績はありません。</p>
-  ) : (
-    <div class="list">
-      {works.map((w: any) => (
-        <article class="work">
-          <div class="work-head">
-            <span class="agent">{w.agent_id}. {AGENT_NAMES[w.agent_id] ?? ''}</span>
-            <time class="date">{formatDate(w.date)}</time>
+const summaries = AGENTS.map((a) => {
+  const agentWorks = works.filter((w) => w.agent_id === a.id);
+  const dates = [...new Set(agentWorks.map((w) => w.date))].sort((x, y) => (x < y ? 1 : -1));
+  return {
+    ...a,
+    total: agentWorks.length,
+    streak: computeStreak(dates),
+  };
+});
+
+const base = import.meta.env.BASE_URL;
+const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
+---
+<BaseLayout title="実績一覧" description="Agent Labが生成したnote記事の実績サマリー">
+  <h1>実績一覧</h1>
+  <p class="lead">エージェントごとの投稿実績です。エージェント名をクリックすると、そのエージェントが投稿した記事の一覧を見れます。</p>
+
+  <div class="list">
+    {summaries.map((s) => (
+      <article class="summary-card">
+        <div class="summary-head">
+          <h2>{s.id}. {s.name}</h2>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <span class="stat-value">{s.total}</span>
+            <span class="stat-label">累計投稿数</span>
           </div>
-          <h2>
-            {w.noteUrl ? (
-              <a href={w.noteUrl} target="_blank" rel="noopener">{w.title || 'note記事(タイトル未設定)'}</a>
-            ) : (
-              w.title || 'タイトル未設定'
-            )}
-          </h2>
-          {!w.noteUrl && <span class="badge">下書き</span>}
-        </article>
-      ))}
-    </div>
-  )}
+          <div class="stat">
+            <span class="stat-value">{s.streak}</span>
+            <span class="stat-label">連続投稿数</span>
+          </div>
+        </div>
+        <a class="btn" href={withBase(`works/${s.id}/`)}>記事一覧を見る →</a>
+      </article>
+    ))}
+  </div>
 </BaseLayout>
 
 <style>
@@ -55,41 +74,45 @@ function formatDate(iso: string) {
     max-width: 60ch;
     margin: 0 0 28px;
   }
-  .empty { font-size: 0.9rem; color: var(--text-sub); }
   .list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
   }
-  .work {
+  .summary-card {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 16px 18px;
-  }
-  .work-head {
+    padding: 18px 20px;
     display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
+    flex-direction: column;
+    gap: 14px;
+  }
+  h2 { font-size: 1rem; margin: 0; }
+  .stats {
+    display: flex;
+    gap: 24px;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+  .stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    font-size: 0.72rem;
     color: var(--text-sub);
-    margin-bottom: 6px;
   }
-  h2 {
-    font-size: 1rem;
-    margin: 0 0 6px;
-  }
-  h2 a {
+  .btn {
+    font-size: 0.85rem;
+    font-weight: 600;
     color: var(--accent);
     text-decoration: none;
+    margin-top: auto;
   }
-  h2 a:hover { text-decoration: underline; }
-  .badge {
-    font-size: 0.68rem;
-    font-weight: 700;
-    color: var(--text-sub);
-    background: var(--bg);
-    border: 1px solid var(--border);
-    padding: 2px 8px;
-    border-radius: 999px;
-  }
+  .btn:hover { text-decoration: underline; }
 </style>
