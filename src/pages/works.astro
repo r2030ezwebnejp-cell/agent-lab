@@ -35,9 +35,9 @@ function formatDate(iso: string) {
           </div>
           <h2>
             {w.noteUrl ? (
-              <a href={w.noteUrl} target="_blank" rel="noopener">{w.title}</a>
+              <a href={w.noteUrl} target="_blank" rel="noopener">{w.title || 'note記事(タイトル未設定)'}</a>
             ) : (
-              w.title
+              w.title || 'タイトル未設定'
             )}
           </h2>
           {!w.noteUrl && <span class="badge">下書き</span>}

@@ -44,6 +44,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <select id="urlAgent"></select>
         <label>下書きの日付</label>
         <input type="date" id="urlDate">
+        <label>note記事タイトル</label>
+        <input type="text" id="urlTitle" placeholder="実際にnoteへ投稿したタイトル">
         <label>note記事URL</label>
         <input type="url" id="urlValue" placeholder="https://note.com/...">
         <div class="submit-row"><button class="btn" onclick="submitNoteUrl()">GitHubで送信</button></div>
@@ -274,12 +276,14 @@ function submitSchedule() {
 function submitNoteUrl() {
   const id = document.getElementById('urlAgent').value;
   const date = document.getElementById('urlDate').value;
+  const title = document.getElementById('urlTitle').value;
   const url = document.getElementById('urlValue').value;
   if (!date || !url) { alert('日付とURLを入力してください'); return; }
   openIssue(`[note-url] エージェント${id} ${date}分のnote URL登録`, [
     'type: note-url',
     `agent_id: ${id}`,
     `date: ${date}`,
+    `title: ${title}`,
     `url: ${url}`,
   ]);
 }
