@@ -1,33 +1,184 @@
 {
   "works": [
-    { "agent_id": "01", "date": "2026-07-08", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n796dcfd50e6d" },
-    { "agent_id": "01", "date": "2026-07-09", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n9e346000a2b7" },
-    { "agent_id": "01", "date": "2026-07-12", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/nd86c9afbfa4a" },
-    { "agent_id": "01", "date": "2026-07-13", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/nc867188777b0" },
-    { "agent_id": "01", "date": "2026-07-14", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/na54807a7f233" },
-    { "agent_id": "01", "date": "2026-07-15", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n2bd94ccfecae" },
-    { "agent_id": "01", "date": "2026-07-16", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n4a536639cef4" },
-    { "agent_id": "02", "date": "2026-07-08", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/ndb5f69e548e9" },
-    { "agent_id": "02", "date": "2026-07-09", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n61d53672da2a" },
-    { "agent_id": "02", "date": "2026-07-12", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n07f1e328f70d" },
-    { "agent_id": "02", "date": "2026-07-13", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n47404c668415" },
-    { "agent_id": "02", "date": "2026-07-14", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/na991fca1fa9f" },
-    { "agent_id": "02", "date": "2026-07-15", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n737da94fa093" },
-    { "agent_id": "02", "date": "2026-07-16", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/na8e5e2dbe5ad" },
-    { "agent_id": "04", "date": "2026-07-08", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n4901b780153e" },
-    { "agent_id": "04", "date": "2026-07-09", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n7851c70d10f3" },
-    { "agent_id": "04", "date": "2026-07-12", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/nc0b6baca6ea0" },
-    { "agent_id": "04", "date": "2026-07-13", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/nfceae8f35548" },
-    { "agent_id": "04", "date": "2026-07-14", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/nce8f8a49dd39" },
-    { "agent_id": "04", "date": "2026-07-15", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n9525bfb12550" },
-    { "agent_id": "04", "date": "2026-07-16", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n018932b30daa" },
-    { "agent_id": "06", "date": "2026-07-08", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/na7eb5c0a652f" },
-    { "agent_id": "06", "date": "2026-07-09", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n63ae468ad524" },
-    { "agent_id": "06", "date": "2026-07-12", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/ncf1d3083f4f3" },
-    { "agent_id": "06", "date": "2026-07-13", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n2bddec4d646b" },
-    { "agent_id": "06", "date": "2026-07-14", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n45af9466c66f" },
-    { "agent_id": "06", "date": "2026-07-15", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/n6920bfc41e65" },
-    { "agent_id": "06", "date": "2026-07-16", "title": null, "noteUrl": "https://note.com/jgiajfid_5293/n/nc09a9161aafd" },
-    { "agent_id": "06", "date": "2026-07-17", "title": "クッション言葉の基本から、心理学が示すハロー効果とサンクコストの罠まで", "noteUrl": null }
+    {
+      "agent_id": "01",
+      "date": "2026-07-08",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n796dcfd50e6d"
+    },
+    {
+      "agent_id": "01",
+      "date": "2026-07-09",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n9e346000a2b7"
+    },
+    {
+      "agent_id": "01",
+      "date": "2026-07-12",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/nd86c9afbfa4a"
+    },
+    {
+      "agent_id": "01",
+      "date": "2026-07-13",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/nc867188777b0"
+    },
+    {
+      "agent_id": "01",
+      "date": "2026-07-14",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/na54807a7f233"
+    },
+    {
+      "agent_id": "01",
+      "date": "2026-07-15",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n2bd94ccfecae"
+    },
+    {
+      "agent_id": "01",
+      "date": "2026-07-16",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n4a536639cef4"
+    },
+    {
+      "agent_id": "02",
+      "date": "2026-07-08",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/ndb5f69e548e9"
+    },
+    {
+      "agent_id": "02",
+      "date": "2026-07-09",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n61d53672da2a"
+    },
+    {
+      "agent_id": "02",
+      "date": "2026-07-12",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n07f1e328f70d"
+    },
+    {
+      "agent_id": "02",
+      "date": "2026-07-13",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n47404c668415"
+    },
+    {
+      "agent_id": "02",
+      "date": "2026-07-14",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/na991fca1fa9f"
+    },
+    {
+      "agent_id": "02",
+      "date": "2026-07-15",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n737da94fa093"
+    },
+    {
+      "agent_id": "02",
+      "date": "2026-07-16",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/na8e5e2dbe5ad"
+    },
+    {
+      "agent_id": "04",
+      "date": "2026-07-08",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n4901b780153e"
+    },
+    {
+      "agent_id": "04",
+      "date": "2026-07-09",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n7851c70d10f3"
+    },
+    {
+      "agent_id": "04",
+      "date": "2026-07-12",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/nc0b6baca6ea0"
+    },
+    {
+      "agent_id": "04",
+      "date": "2026-07-13",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/nfceae8f35548"
+    },
+    {
+      "agent_id": "04",
+      "date": "2026-07-14",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/nce8f8a49dd39"
+    },
+    {
+      "agent_id": "04",
+      "date": "2026-07-15",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n9525bfb12550"
+    },
+    {
+      "agent_id": "04",
+      "date": "2026-07-16",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n018932b30daa"
+    },
+    {
+      "agent_id": "06",
+      "date": "2026-07-08",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/na7eb5c0a652f"
+    },
+    {
+      "agent_id": "06",
+      "date": "2026-07-09",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n63ae468ad524"
+    },
+    {
+      "agent_id": "06",
+      "date": "2026-07-12",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/ncf1d3083f4f3"
+    },
+    {
+      "agent_id": "06",
+      "date": "2026-07-13",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n2bddec4d646b"
+    },
+    {
+      "agent_id": "06",
+      "date": "2026-07-14",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n45af9466c66f"
+    },
+    {
+      "agent_id": "06",
+      "date": "2026-07-15",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/n6920bfc41e65"
+    },
+    {
+      "agent_id": "06",
+      "date": "2026-07-16",
+      "title": null,
+      "noteUrl": "https://note.com/jgiajfid_5293/n/nc09a9161aafd"
+    },
+    {
+      "agent_id": "06",
+      "date": "2026-07-17",
+      "title": "クッション言葉の基本から、心理学が示すハロー効果とサンクコストの罠まで",
+      "noteUrl": null
+    },
+    {
+      "agent_id": "02",
+      "date": "2026-07-17",
+      "title": "農業共済の被害査定にAIエージェントは使えるか?保険業界の成功事例から考える仮説",
+      "noteUrl": null
+    }
   ]
 }
