@@ -1,0 +1,255 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+
+export function getStaticPaths() {
+  const statusPath = path.join(process.cwd(), 'public/data/status.json');
+  const statusData = JSON.parse(fs.readFileSync(statusPath, 'utf-8'));
+  return statusData.agents.map((a: any) => ({
+    params: { id: a.id },
+    props: { agent: a },
+  }));
+}
+
+const { agent } = Astro.props;
+const runs = agent.runs || [];
+
+// --- date helpers (all dates are JST calendar-date strings, "YYYY-MM-DD") ---
+function toDateObj(dateStr: string) { return new Date(dateStr + 'T00:00:00Z'); }
+function toDateStr(d: Date) { return d.toISOString().slice(0, 10); }
+function addDays(dateStr: string, n: number) {
+  const d = toDateObj(dateStr);
+  d.setUTCDate(d.getUTCDate() + n);
+  return toDateStr(d);
+}
+function dayOfWeek(dateStr: string) { return toDateObj(dateStr).getUTCDay(); } // 0=Sun
+function mondayOf(dateStr: string) {
+  const diff = (dayOfWeek(dateStr) + 6) % 7;
+  return addDays(dateStr, -diff);
+}
+
+const todayStr = new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
+
+// runs grouped by JST calendar date -> worst status that day ('fail' wins over 'success')
+const runsByDate = new Map<string, string>();
+for (const r of runs) {
+  const d = r.timestamp.slice(0, 10);
+  const existing = runsByDate.get(d);
+  if (existing !== 'fail') {
+    runsByDate.set(d, r.status === 'fail' ? 'fail' : 'success');
+  }
+}
+
+// --- weekly bar chart: last 8 weeks (Monday-start) ---
+const thisMonday = mondayOf(todayStr);
+const weeklyBars = [];
+for (let i = 7; i >= 0; i--) {
+  const weekStart = addDays(thisMonday, -7 * i);
+  const weekEnd = addDays(weekStart, 6);
+  const count = [...runsByDate.keys()].filter((d) => d >= weekStart && d <= weekEnd).length;
+  weeklyBars.push({ label: weekStart.slice(5).replace('-', '/'), count });
+}
+
+// --- monthly bar chart: last 6 months ---
+const [ty, tm] = todayStr.split('-').map(Number);
+const monthlyBars = [];
+for (let i = 5; i >= 0; i--) {
+  let y = ty, m = tm - i;
+  while (m <= 0) { m += 12; y -= 1; }
+  const key = `${y}-${String(m).padStart(2, '0')}`;
+  const count = [...runsByDate.keys()].filter((d) => d.startsWith(key)).length;
+  monthlyBars.push({ label: `${m}月`, count });
+}
+
+const weeklyMax = Math.max(1, ...weeklyBars.map((b) => b.count));
+const monthlyMax = Math.max(1, ...monthlyBars.map((b) => b.count));
+
+// --- calendar heatmap: last 53 weeks, ending today, aligned to Sunday ---
+let startStr = addDays(todayStr, -370);
+startStr = addDays(startStr, -dayOfWeek(startStr));
+const cells = [];
+for (let d = startStr; d <= todayStr; d = addDays(d, 1)) {
+  cells.push({ date: d, status: runsByDate.get(d) || null });
+}
+const heatWeeks = [];
+for (let i = 0; i < cells.length; i += 7) {
+  heatWeeks.push(cells.slice(i, i + 7));
+}
+
+// --- full history table, newest first ---
+const history = [...runs].sort((a: any, b: any) => (a.timestamp < b.timestamp ? 1 : -1));
+
+function formatDateTime(iso: string) {
+  const d = new Date(iso);
+  return d.toLocaleString('ja-JP', { dateStyle: 'medium', timeStyle: 'short' });
+}
+---
+<BaseLayout title={`${agent.id}. ${agent.name}`} description={`${agent.name}の稼働履歴とグラフ`}>
+  <p class="back"><a href="../dashboard/">← ダッシュボードに戻る</a></p>
+  <h1>{agent.id}. {agent.name}</h1>
+  <p class="lead">{agent.scheduleLabel}</p>
+
+  <section>
+    <h2>週次/月次の稼働推移</h2>
+    <div class="tabs">
+      <button class="tab-btn active" data-target="weekly" onclick="showTab(this, 'weekly')">直近8週間</button>
+      <button class="tab-btn" data-target="monthly" onclick="showTab(this, 'monthly')">直近6か月</button>
+    </div>
+    <div class="chart" id="chart-weekly">
+      {weeklyBars.map((b) => (
+        <div class="bar-col">
+          <div class="bar" style={`height:${Math.round((b.count / weeklyMax) * 100)}%`} title={`${b.label}: ${b.count}回`}></div>
+          <span class="bar-label">{b.label}</span>
+        </div>
+      ))}
+    </div>
+    <div class="chart" id="chart-monthly" style="display:none">
+      {monthlyBars.map((b) => (
+        <div class="bar-col">
+          <div class="bar" style={`height:${Math.round((b.count / monthlyMax) * 100)}%`} title={`${b.label}: ${b.count}回`}></div>
+          <span class="bar-label">{b.label}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <h2>稼働カレンダー(直近1年)</h2>
+    <div class="heatmap-wrap">
+      <div class="heatmap">
+        {heatWeeks.map((week) => (
+          <div class="heat-col">
+            {week.map((cell) => (
+              <div
+                class={`heat-cell ${cell.status ?? 'none'}`}
+                title={`${cell.date}${cell.status ? (cell.status === 'success' ? ' 正常' : ' 失敗') : ' 記録なし'}`}
+              ></div>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div class="heat-legend">
+        <span>少</span>
+        <span class="heat-cell none"></span>
+        <span class="heat-cell success"></span>
+        <span class="heat-cell fail"></span>
+        <span>多</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>全実行履歴</h2>
+    {history.length === 0 ? (
+      <p class="empty">まだ実行記録はありません。</p>
+    ) : (
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>日時</th><th>ステータス</th></tr></thead>
+          <tbody>
+            {history.map((r: any) => (
+              <tr>
+                <td>{formatDateTime(r.timestamp)}</td>
+                <td><span class={`badge ${r.status}`}>{r.status === 'success' ? '正常' : '失敗'}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .back { font-size: 0.82rem; margin: 0 0 12px; }
+  .back a { color: var(--accent); text-decoration: none; }
+  h1 { font-size: 1.4rem; margin: 0 0 4px; }
+  .lead { font-size: 0.85rem; color: var(--text-sub); margin: 0 0 32px; }
+  section { margin-bottom: 40px; }
+  h2 { font-size: 1.05rem; margin: 0 0 14px; }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+  .tab-btn {
+    font-size: 0.8rem;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text-sub);
+    cursor: pointer;
+  }
+  .tab-btn.active { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+  .chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    height: 160px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 16px 8px;
+  }
+  .bar-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    gap: 6px;
+  }
+  .bar {
+    width: 100%;
+    max-width: 34px;
+    background: var(--accent);
+    border-radius: 4px 4px 0 0;
+    min-height: 2px;
+  }
+  .bar-label { font-size: 0.68rem; color: var(--text-sub); white-space: nowrap; }
+
+  .heatmap-wrap { overflow-x: auto; }
+  .heatmap { display: flex; gap: 3px; width: max-content; }
+  .heat-col { display: flex; flex-direction: column; gap: 3px; }
+  .heat-cell {
+    width: 11px;
+    height: 11px;
+    border-radius: 2px;
+    background: var(--border);
+  }
+  .heat-cell.success { background: var(--green); }
+  .heat-cell.fail { background: var(--red); }
+  .heat-legend {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    font-size: 0.7rem;
+    color: var(--text-sub);
+  }
+  .heat-legend .heat-cell { width: 11px; height: 11px; }
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--border); }
+  th { font-size: 0.68rem; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.04em; }
+  tr:last-child td { border-bottom: none; }
+  .badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 999px;
+  }
+  .badge.success { background: color-mix(in srgb, var(--green) 18%, transparent); color: var(--green); }
+  .badge.fail { background: color-mix(in srgb, var(--red) 18%, transparent); color: var(--red); }
+  .empty { font-size: 0.88rem; color: var(--text-sub); }
+</style>
+
+<script is:inline>
+function showTab(btn, target) {
+  document.querySelectorAll('.tab-btn').forEach((b) => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('chart-weekly').style.display = target === 'weekly' ? 'flex' : 'none';
+  document.getElementById('chart-monthly').style.display = target === 'monthly' ? 'flex' : 'none';
+}
+</script>

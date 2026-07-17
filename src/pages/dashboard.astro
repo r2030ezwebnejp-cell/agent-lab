@@ -59,6 +59,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: var(--text-sub);
     margin-top: 2px;
   }
+  .grid :global(.detail-link) {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.78rem;
+    color: var(--accent);
+    text-decoration: none;
+  }
   .empty {
     text-align: center;
     color: var(--text-sub);
@@ -72,7 +79,7 @@ async function main() {
   const updatedEl = document.getElementById('updated');
   let data;
   try {
-    const res = await fetch('data/status.json?_=' + Date.now());
+    const res = await fetch('../data/status.json?_=' + Date.now());
     data = await res.json();
   } catch (e) {
     grid.innerHTML = '<div class="empty">データの読み込みに失敗しました</div>';
@@ -157,6 +164,7 @@ function renderCard(agent) {
         ${badge}
       </div>
       ${rows.join('')}
+      <a class="detail-link" href="../agents/${escapeHtml(agent.id)}/">詳細を見る →</a>
     </div>
   `;
 }
