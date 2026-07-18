@@ -99,7 +99,9 @@ function formatDateTime(iso: string) {
     <div class="chart" id="chart-weekly">
       {weeklyBars.map((b) => (
         <div class="bar-col">
-          <div class="bar" style={`height:${Math.round((b.count / weeklyMax) * 100)}%`} title={`${b.label}: ${b.count}回`}></div>
+          <div class="bar" style={`height:${Math.round((b.count / weeklyMax) * 100)}%`} title={`${b.label}: ${b.count}回`}>
+            <span class="bar-count">{b.count}</span>
+          </div>
           <span class="bar-label">{b.label}</span>
         </div>
       ))}
@@ -107,7 +109,9 @@ function formatDateTime(iso: string) {
     <div class="chart" id="chart-monthly" style="display:none">
       {monthlyBars.map((b) => (
         <div class="bar-col">
-          <div class="bar" style={`height:${Math.round((b.count / monthlyMax) * 100)}%`} title={`${b.label}: ${b.count}回`}></div>
+          <div class="bar" style={`height:${Math.round((b.count / monthlyMax) * 100)}%`} title={`${b.label}: ${b.count}回`}>
+            <span class="bar-count">{b.count}</span>
+          </div>
           <span class="bar-label">{b.label}</span>
         </div>
       ))}
@@ -194,6 +198,7 @@ function formatDateTime(iso: string) {
     align-items: flex-end;
     gap: 10px;
     height: 160px;
+    padding-top: 24px;
   }
   .bar-col {
     flex: 1;
@@ -205,11 +210,22 @@ function formatDateTime(iso: string) {
     gap: 6px;
   }
   .bar {
+    position: relative;
     width: 100%;
     max-width: 34px;
     background: var(--accent);
     border-radius: 4px 4px 0 0;
     min-height: 2px;
+  }
+  .bar-count {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
   }
   .bar-label { font-size: 0.68rem; color: var(--text-sub); white-space: nowrap; }
 
