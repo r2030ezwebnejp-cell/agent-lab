@@ -66,6 +66,7 @@ const theme = siteSettings.theme === 'light' || siteSettings.theme === 'dark' ? 
     --header-text: #f5f6f8;
     --header-border: #262a38;
     --display-font: Didot, "Bodoni MT", "Didot LT STD", "Big Caslon", Georgia, "Times New Roman", serif;
+    --aurora-gold: #e0b155;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -94,9 +95,16 @@ const theme = siteSettings.theme === 'light' || siteSettings.theme === 'dark' ? 
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    background: var(--bg);
     color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(circle at 8% 12%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 42%),
+      radial-gradient(circle at 92% 18%, color-mix(in srgb, var(--aurora-gold) 20%, transparent), transparent 46%),
+      radial-gradient(circle at 20% 92%, color-mix(in srgb, var(--aurora-gold) 12%, transparent), transparent 50%),
+      radial-gradient(circle at 85% 88%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 50%);
+    background-attachment: fixed;
+    background-size: cover;
   }
   main {
     max-width: 960px;
