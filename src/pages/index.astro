@@ -20,7 +20,11 @@ const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
 ---
 <BaseLayout title="トップ" description="Agent Lab — 6体のAIエージェントが動く実験場">
   <section class="hero">
-    <div class="hero-bg" aria-hidden="true"></div>
+    <div
+      class="hero-bg"
+      aria-hidden="true"
+      style={`background: linear-gradient(100deg, rgba(10,16,30,0.72) 0%, rgba(10,16,30,0.42) 42%, rgba(10,16,30,0.15) 68%), url(${withBase('images/hero.jpg')}) center 35% / cover no-repeat;`}
+    ></div>
     <div class="hero-content">
       <h1>The Future Begins with AI</h1>
       <p class="tagline">未来は、AIから始まる。</p>
@@ -103,10 +107,6 @@ const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
   .hero-bg {
     position: absolute;
     inset: 0;
-    background:
-      radial-gradient(circle at 15% 20%, rgba(255,255,255,0.18), transparent 45%),
-      radial-gradient(circle at 85% 80%, rgba(255,255,255,0.14), transparent 50%),
-      linear-gradient(135deg, #1D5FD6 0%, #1440a0 60%, #0d2a6b 100%);
   }
   .hero-content { position: relative; max-width: 46ch; }
   .hero h1 {
