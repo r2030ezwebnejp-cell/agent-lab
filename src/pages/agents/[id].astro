@@ -65,36 +65,15 @@ for (let i = 5; i >= 0; i--) {
 const weeklyMax = Math.max(1, ...weeklyBars.map((b) => b.count));
 const monthlyMax = Math.max(1, ...monthlyBars.map((b) => b.count));
 
-// --- y-axis scale: "nice" step size and gridline values from 0 to a rounded top ---
-function niceStep(max: number) {
-  if (max <= 5) return 1;
-  if (max <= 10) return 2;
-  if (max <= 25) return 5;
-  if (max <= 50) return 10;
-  if (max <= 100) return 20;
-  return Math.ceil(max / 100) * 20;
-}
-function buildScale(max: number) {
-  const step = niceStep(max);
+// --- y-axis scale: fixed gridline step per chart, from 0 to a rounded top ---
+function buildScale(max: number, step: number) {
   const top = Math.max(step, Math.ceil(max / step) * step);
   const ticks = [];
   for (let v = 0; v <= top; v += step) ticks.push(v);
   return { top, ticks };
 }
-const weeklyScale = buildScale(weeklyMax);
-const monthlyScale = buildScale(monthlyMax);
-
-// --- calendar heatmap: last 53 weeks, ending today, aligned to Sunday ---
-let startStr = addDays(todayStr, -370);
-startStr = addDays(startStr, -dayOfWeek(startStr));
-const cells = [];
-for (let d = startStr; d <= todayStr; d = addDays(d, 1)) {
-  cells.push({ date: d, status: runsByDate.get(d) || null });
-}
-const heatWeeks = [];
-for (let i = 0; i < cells.length; i += 7) {
-  heatWeeks.push(cells.slice(i, i + 7));
-}
+const weeklyScale = buildScale(weeklyMax, 1);
+const monthlyScale = buildScale(monthlyMax, 5);
 
 // --- full history table, newest first ---
 const history = [...runs].sort((a: any, b: any) => (a.timestamp < b.timestamp ? 1 : -1));
@@ -127,7 +106,9 @@ function formatDateTime(iso: string) {
           <div class="bars">
             {weeklyBars.map((b) => (
               <div class="bar-col">
-                <div class="bar" style={`height:${(b.count / weeklyScale.top) * 100}%`} title={`${b.label}: ${b.count}回`}></div>
+                <div class="bar" style={`height:${(b.count / weeklyScale.top) * 100}%`} title={`${b.label}: ${b.count}回`}>
+                  <span class="bar-count">{b.count}</span>
+                </div>
               </div>
             ))}
           </div>
@@ -149,7 +130,9 @@ function formatDateTime(iso: string) {
           <div class="bars">
             {monthlyBars.map((b) => (
               <div class="bar-col">
-                <div class="bar" style={`height:${(b.count / monthlyScale.top) * 100}%`} title={`${b.label}: ${b.count}回`}></div>
+                <div class="bar" style={`height:${(b.count / monthlyScale.top) * 100}%`} title={`${b.label}: ${b.count}回`}>
+                  <span class="bar-count">{b.count}</span>
+                </div>
               </div>
             ))}
           </div>
@@ -157,31 +140,6 @@ function formatDateTime(iso: string) {
         <div class="labels-row">
           {monthlyBars.map((b) => <span class="bar-label">{b.label}</span>)}
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2>稼働カレンダー(直近1年)</h2>
-    <div class="heatmap-wrap">
-      <div class="heatmap">
-        {heatWeeks.map((week) => (
-          <div class="heat-col">
-            {week.map((cell) => (
-              <div
-                class={`heat-cell ${cell.status ?? 'none'}`}
-                title={`${cell.date}${cell.status ? (cell.status === 'success' ? ' 正常' : ' 失敗') : ' 記録なし'}`}
-              ></div>
-            ))}
-          </div>
-        ))}
-      </div>
-      <div class="heat-legend">
-        <span>少</span>
-        <span class="heat-cell none"></span>
-        <span class="heat-cell success"></span>
-        <span class="heat-cell fail"></span>
-        <span>多</span>
       </div>
     </div>
   </section>
@@ -246,7 +204,7 @@ function formatDateTime(iso: string) {
     justify-content: space-between;
     align-items: flex-end;
     width: 34px;
-    height: 140px;
+    height: 200px;
     flex-shrink: 0;
   }
   .axis-tick {
@@ -264,7 +222,7 @@ function formatDateTime(iso: string) {
   }
   .plot {
     position: relative;
-    height: 140px;
+    height: 200px;
   }
   .gridlines {
     position: absolute;
@@ -290,35 +248,33 @@ function formatDateTime(iso: string) {
     align-items: flex-end;
   }
   .bar {
+    position: relative;
     width: 100%;
     max-width: 34px;
     background: var(--accent);
     border-radius: 4px 4px 0 0;
     min-height: 2px;
   }
+  .bar-count {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    margin-bottom: 0;
+    padding: 2px 7px;
+    background: var(--text);
+    color: var(--card-bg);
+    font-size: 0.68rem;
+    font-weight: 700;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+  .bar:hover .bar-count { opacity: 1; }
   .labels-row { display: flex; gap: 10px; }
   .bar-label { flex: 1; text-align: center; font-size: 0.68rem; color: var(--text-sub); white-space: nowrap; }
-
-  .heatmap-wrap { overflow-x: auto; }
-  .heatmap { display: flex; gap: 3px; width: max-content; }
-  .heat-col { display: flex; flex-direction: column; gap: 3px; }
-  .heat-cell {
-    width: 11px;
-    height: 11px;
-    border-radius: 2px;
-    background: var(--border);
-  }
-  .heat-cell.success { background: var(--green); }
-  .heat-cell.fail { background: var(--red); }
-  .heat-legend {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-top: 10px;
-    font-size: 0.7rem;
-    color: var(--text-sub);
-  }
-  .heat-legend .heat-cell { width: 11px; height: 11px; }
 
   .table-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
