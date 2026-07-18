@@ -49,11 +49,7 @@ const theme = siteSettings.theme === 'light' || siteSettings.theme === 'dark' ? 
   </footer>
 
   <script>
-    const ADMIN_KEY = 'agentlab-admin';
     if (/\/adminpage\/?$/.test(window.location.pathname)) {
-      localStorage.setItem(ADMIN_KEY, '1');
-    }
-    if (localStorage.getItem(ADMIN_KEY) === '1') {
       document.getElementById('nav-settings')?.removeAttribute('hidden');
     }
   </script>
