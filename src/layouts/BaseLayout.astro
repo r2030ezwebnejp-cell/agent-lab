@@ -25,17 +25,19 @@ const theme = siteSettings.theme === 'light' || siteSettings.theme === 'dark' ? 
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href={`${base}`}>Agent Lab</a>
-    <nav class="site-nav">
-      <a href={`${base}`}>トップ</a>
-      <a href={`${base}services/`}>サービス紹介</a>
-      <a href={`${base}works/`}>実績一覧</a>
-      <a href={`${base}news/`}>お知らせ</a>
-      <a href={`${base}about/`}>概要</a>
-      <a href={`${base}contact/`}>お問い合わせ</a>
-      <a href={`${base}dashboard/`}>ダッシュボード</a>
-      <a href={`${base}settings/`}>設定</a>
-    </nav>
+    <div class="header-inner">
+      <a class="brand" href={`${base}`}>Agent Lab</a>
+      <nav class="site-nav">
+        <a class="nav-cta" href={`${base}contact/`}>お問い合わせ</a>
+        <a href={`${base}`}>トップ</a>
+        <a href={`${base}services/`}>サービス紹介</a>
+        <a href={`${base}works/`}>実績一覧</a>
+        <a href={`${base}news/`}>お知らせ</a>
+        <a href={`${base}about/`}>概要</a>
+        <a href={`${base}dashboard/`}>ダッシュボード</a>
+        <a href={`${base}settings/`}>設定</a>
+      </nav>
+    </div>
   </header>
 
   <main>
@@ -60,6 +62,10 @@ const theme = siteSettings.theme === 'light' || siteSettings.theme === 'dark' ? 
     --red: #dc2626;
     --accent: #1D5FD6;
     --accent-soft: #e8f0fd;
+    --header-bg: #14161f;
+    --header-text: #f5f6f8;
+    --header-border: #262a38;
+    --display-font: Didot, "Bodoni MT", "Didot LT STD", "Big Caslon", Georgia, "Times New Roman", serif;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -101,30 +107,57 @@ const theme = siteSettings.theme === 'light' || siteSettings.theme === 'dark' ? 
 
 <style>
   .site-header {
-    max-width: 960px;
+    width: 100%;
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--header-border);
+  }
+  .header-inner {
+    max-width: 1180px;
     margin: 0 auto;
-    padding: 18px 16px 0;
+    padding: 20px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 8px 20px;
+    gap: 10px 24px;
   }
   .brand {
+    font-family: var(--display-font);
     font-weight: 700;
-    font-size: 1.05rem;
-    color: var(--text);
+    font-size: 1.7rem;
+    letter-spacing: 0.02em;
+    color: var(--header-text);
     text-decoration: none;
+    text-align: left;
+    margin-right: auto;
   }
   .site-nav {
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
-    gap: 8px 16px;
+    gap: 10px 26px;
   }
   .site-nav a {
-    font-size: 0.85rem;
-    color: var(--accent);
+    font-size: 1rem;
+    color: var(--header-text);
     text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .site-nav a:hover {
+    color: #f5b942;
+  }
+  .site-nav .nav-cta {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--header-text);
+    border: 1.5px solid var(--header-text);
+    border-radius: 999px;
+    padding: 7px 22px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .site-nav .nav-cta:hover {
+    background: var(--header-text);
+    color: var(--header-bg);
   }
   .site-footer {
     max-width: 960px;

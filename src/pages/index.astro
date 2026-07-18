@@ -23,17 +23,16 @@ const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-content">
       <h1>The Future Begins with AI</h1>
-      <p>6体のAIエージェントが、毎日自律的に稼働しています。</p>
+      <p class="tagline">未来は、AIから始まる。</p>
       <a class="cta" href={withBase('dashboard/')}>稼働状況を見る →</a>
     </div>
   </section>
 
   <section class="agents">
-    <h2>6体のエージェント</h2>
+    <h2>My Agent</h2>
     <div class="agent-grid">
       {statusData.agents.map((a: any) => (
         <a class="agent-card" href={withBase(`agents/${a.id}/`)}>
-          <span class="agent-id">{a.id}</span>
           <span class="agent-name">{a.name}</span>
         </a>
       ))}
@@ -55,7 +54,7 @@ const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
               : null;
             return (
               <tr>
-                <td>{a.id}. {a.name}</td>
+                <td>{a.name}</td>
                 <td>{last ? formatDate(last.timestamp) : '記録なし'}</td>
                 <td>{runs.length}回</td>
               </tr>
@@ -67,7 +66,7 @@ const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
   </section>
 
   <section class="news">
-    <h2>お知らせ</h2>
+    <h2>News</h2>
     {latestNews.length === 0 ? (
       <p class="empty">まだお知らせはありません。</p>
     ) : (
@@ -111,14 +110,18 @@ const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
   }
   .hero-content { position: relative; max-width: 46ch; }
   .hero h1 {
-    font-size: 2.1rem;
-    margin: 0 0 12px;
-    letter-spacing: -0.01em;
-    text-wrap: balance;
+    font-family: var(--display-font);
+    font-size: clamp(1.9rem, 4.4vw, 3.4rem);
+    font-weight: 700;
+    margin: 0 0 14px;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
   }
-  .hero p {
-    font-size: 1rem;
-    opacity: 0.9;
+  .hero .tagline {
+    font-family: var(--display-font);
+    font-size: 1.3rem;
+    font-style: italic;
+    opacity: 0.92;
     margin: 0 0 24px;
   }
   .cta {
@@ -132,36 +135,64 @@ const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
     text-decoration: none;
   }
 
+  .agents h2 {
+    font-family: var(--display-font);
+    font-size: 1.9rem;
+  }
   .agent-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 640px) {
+    .agent-grid { grid-template-columns: repeat(1, 1fr); }
   }
   .agent-card {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    align-items: center;
+    justify-content: center;
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 14px 16px;
+    padding: 22px 16px;
     text-decoration: none;
     color: var(--text);
   }
   .agent-card:hover { border-color: var(--accent); }
-  .agent-id {
-    font-size: 0.72rem;
-    color: var(--accent);
-    font-weight: 700;
+  .agent-name {
+    font-family: var(--display-font);
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-align: center;
   }
-  .agent-name { font-size: 0.88rem; font-weight: 600; }
 
-  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); }
-  th { font-size: 0.7rem; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.04em; }
+  .summary h2 {
+    font-family: var(--display-font);
+    font-size: 1.9rem;
+  }
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--card-bg);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    padding: 4px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+  th, td { text-align: left; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+  th { font-size: 0.78rem; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.04em; }
   tr:last-child td { border-bottom: none; }
 
+  .news {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 26px;
+    background: var(--accent-soft);
+  }
+  .news h2 {
+    font-family: var(--display-font);
+    font-size: 1.9rem;
+  }
   .news ul { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 8px; }
   .news li { display: flex; gap: 14px; font-size: 0.88rem; }
   .news time { color: var(--text-sub); font-size: 0.78rem; white-space: nowrap; }
