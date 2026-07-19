@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-18T19:16:43+09:00",
+  "updatedAt": "2026-07-19T12:28:27+09:00",
   "agents": [
     {
       "id": "01",
@@ -46,7 +46,9 @@
       "interval": "weekly",
       "scheduleLabel": "毎週日曜10:00ごろ(週次集計)",
       "schedule": { "weekday": 0, "hour": 10, "minute": 0 },
-      "runs": []
+      "runs": [
+        { "timestamp": "2026-07-19T12:28:27+09:00", "status": "success" }
+      ]
     },
     {
       "id": "04",
