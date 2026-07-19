@@ -14,6 +14,63 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mojgewyq';
     すべてのご依頼に対応できるとは限りません。あらかじめご了承ください。
   </p>
 
+  <section class="info-block">
+    <h2>対応できる範囲</h2>
+    <p class="body">
+      Claude Code(Anthropic社のAIコーディングツール)をベースに、日々の業務を助ける
+      自動化エージェントの設計・構築を行っています。特に得意なのは次のような業務です。
+    </p>
+    <ul>
+      <li>業界ニュース・競合動向などの情報収集と要約</li>
+      <li>文書・原稿の下書き作成</li>
+      <li>定型的な業務プロセスの自動化</li>
+      <li>学習・振り返りの記録支援</li>
+    </ul>
+    <p class="body">
+      Webサービスやスマホアプリの開発など、AIエージェントの範囲を超えるご依頼は
+      対応できない場合があります。判断が難しい場合もまずはご相談ください。
+    </p>
+  </section>
+
+  <section class="info-block">
+    <h2>依頼の流れ</h2>
+    <ol class="flow">
+      <li><span class="flow-title">フォーム送信</span>下記フォームからご依頼内容をお送りください。</li>
+      <li><span class="flow-title">内容確認・ヒアリング</span>必要に応じてメールで詳細をお伺いします。</li>
+      <li><span class="flow-title">ご提案・お見積り</span>対応可否と概算費用・納期をご案内します。</li>
+      <li><span class="flow-title">制作</span>ご要望に沿ってエージェントを設計・構築します。</li>
+      <li><span class="flow-title">納品・動作確認</span>成果物をお渡しし、動作をご確認いただきます。</li>
+    </ol>
+  </section>
+
+  <section class="info-block">
+    <h2>よくある質問</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <p class="q">Q. 個人でも依頼できますか?</p>
+        <p class="a">はい、個人・法人どちらからのご依頼も受け付けています。</p>
+      </div>
+      <div class="faq-item">
+        <p class="q">Q. 料金の目安は?</p>
+        <p class="a">内容によって異なるため、フォーム送信後に個別にお見積りします。フォームでは目安となる予算感を伺っています。</p>
+      </div>
+      <div class="faq-item">
+        <p class="q">Q. 必ず対応してもらえますか?</p>
+        <p class="a">内容や対応状況によってはお受けできない場合があります。あらかじめご了承ください。</p>
+      </div>
+      <div class="faq-item">
+        <p class="q">Q. 機密情報を扱う業務でも依頼できますか?</p>
+        <p class="a">内容によります。フォームの該当チェック欄からその旨をお知らせいただければ、対応可否も含めてご案内します。</p>
+      </div>
+      <div class="faq-item">
+        <p class="q">Q. 納品後の保守や修正もお願いできますか?</p>
+        <p class="a">ご相談のうえ、個別に対応します。</p>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="form-heading">依頼フォーム</h2>
+
   {FORMSPREE_ENDPOINT ? (
     <form action={FORMSPREE_ENDPOINT} method="POST" class="request-form">
       <input type="hidden" name="_subject" value="【Agent Lab】エージェント作成のご依頼">
@@ -82,6 +139,45 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mojgewyq';
     max-width: 60ch;
     margin: 0 0 28px;
   }
+  .info-block {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    max-width: 640px;
+  }
+  .info-block h2 { font-size: 1rem; margin: 0 0 12px; }
+  .info-block .body {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text);
+    margin: 0 0 10px;
+  }
+  .info-block ul {
+    margin: 0 0 10px;
+    padding-left: 1.3em;
+    font-size: 0.88rem;
+    line-height: 1.8;
+  }
+  .flow {
+    margin: 0;
+    padding-left: 1.3em;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .flow li { font-size: 0.88rem; line-height: 1.6; }
+  .flow-title {
+    display: block;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--accent);
+  }
+  .faq { display: flex; flex-direction: column; gap: 14px; }
+  .faq-item .q { font-size: 0.88rem; font-weight: 700; margin: 0 0 4px; }
+  .faq-item .a { font-size: 0.86rem; color: var(--text-sub); line-height: 1.7; margin: 0; }
+  .form-heading { font-size: 1.05rem; margin: 32px 0 14px; }
   .request-form {
     display: flex;
     flex-direction: column;
