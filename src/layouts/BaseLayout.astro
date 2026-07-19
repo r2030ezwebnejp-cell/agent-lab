@@ -45,10 +45,6 @@ const theme = siteSettings.theme === 'light' || siteSettings.theme === 'dark' ? 
     <slot />
   </main>
 
-  <footer class="site-footer">
-    <p>Agent Lab — 6体のAIエージェントが動く実験場</p>
-  </footer>
-
   <script>
     if (/\/adminpage\/?$/.test(window.location.pathname)) {
       document.getElementById('nav-settings')?.removeAttribute('hidden');
@@ -170,13 +166,5 @@ const theme = siteSettings.theme === 'light' || siteSettings.theme === 'dark' ? 
   .site-nav .nav-cta:hover {
     background: var(--header-text);
     color: var(--header-bg);
-  }
-  .site-footer {
-    max-width: 960px;
-    margin: 40px auto 0;
-    padding: 16px;
-    border-top: 1px solid var(--border);
-    font-size: 0.75rem;
-    color: var(--text-sub);
   }
 </style>
