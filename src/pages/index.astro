@@ -30,7 +30,6 @@ const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
       <p class="tagline">未来は、AIから始まる。</p>
       <div class="hero-ctas">
         <a class="cta" href={withBase('request/')}>エージェント作成を依頼する →</a>
-        <a class="cta cta-ghost" href={withBase('dashboard/')}>稼働状況を見る →</a>
       </div>
     </div>
   </section>
@@ -148,16 +147,6 @@ const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-  }
-  .cta-ghost {
-    background: transparent;
-    color: #fff;
-    border: 1.5px solid #fff;
-    box-shadow: none;
-  }
-  .cta-ghost:hover {
-    background: rgba(255,255,255,0.15);
-    color: #fff;
   }
 
   .agents h2 {
