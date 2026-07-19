@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="プライバシーポリシー" description="Agent Labにおける個人情報の取り扱いについて">
+  <h1>プライバシーポリシー</h1>
+  <p class="lead">
+    Agent Lab(以下「当ラボ」)は、依頼フォーム・お問い合わせフォームを通じて
+    お預かりする情報を、以下の方針に基づき取り扱います。
+  </p>
+
+  <section>
+    <h2>取得する情報</h2>
+    <p class="body">
+      依頼フォーム・お問い合わせフォームの送信時に、お名前、会社名・屋号、
+      メールアドレス、依頼内容など、フォームにご入力いただいた情報を取得します。
+    </p>
+  </section>
+
+  <section>
+    <h2>利用目的</h2>
+    <p class="body">
+      取得した情報は、ご依頼・お問い合わせへの回答、対応可否の検討、お見積りの
+      ご案内など、ご連絡いただいた内容に対応する目的にのみ利用します。
+    </p>
+  </section>
+
+  <section>
+    <h2>第三者提供</h2>
+    <p class="body">
+      法令に基づく場合を除き、お預かりした情報をご本人の同意なく第三者に
+      提供することはありません。
+    </p>
+  </section>
+
+  <section>
+    <h2>外部サービスの利用について</h2>
+    <p class="body">
+      依頼フォーム・お問い合わせフォームの送信には、外部のフォーム送信サービス
+      「Formspree」を利用しています。フォームに入力された内容は、同サービスの
+      サーバーを経由して当ラボに届きます。
+    </p>
+  </section>
+
+  <section>
+    <h2>保管・削除</h2>
+    <p class="body">
+      お預かりした情報は、対応に必要な範囲で保管し、対応完了後に不要となった場合は
+      適切に削除するよう努めます。
+    </p>
+  </section>
+
+  <section>
+    <h2>機密情報の取り扱い</h2>
+    <p class="body">
+      依頼内容に業務上の機密情報が含まれる場合も、上記の利用目的の範囲内でのみ
+      取り扱い、目的外での利用や外部への開示は行いません。
+    </p>
+  </section>
+
+  <section>
+    <h2>ポリシーの変更</h2>
+    <p class="body">
+      本ポリシーの内容は、必要に応じて変更することがあります。変更後の内容は、
+      本ページに掲載した時点から適用されます。
+    </p>
+  </section>
+
+  <section>
+    <h2>お問い合わせ</h2>
+    <p class="body">
+      本ポリシーに関するお問い合わせは、お問い合わせフォームよりご連絡ください。
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 { font-size: 1.5rem; margin: 0 0 8px; }
+  .lead {
+    font-size: 0.9rem;
+    color: var(--text-sub);
+    max-width: 66ch;
+    margin: 0 0 32px;
+    line-height: 1.7;
+  }
+  section { margin-bottom: 26px; }
+  h2 { font-size: 1rem; margin: 0 0 10px; }
+  .body {
+    font-size: 0.88rem;
+    line-height: 1.8;
+    max-width: 68ch;
+    margin: 0;
+  }
+</style>

@@ -1,7 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mojgewyq';
+
+const settingsPath = path.join(process.cwd(), 'public/data/site-settings.json');
+const siteSettings = JSON.parse(fs.readFileSync(settingsPath, 'utf-8'));
+const acceptingRequests = siteSettings.acceptingRequests !== false;
+
+const base = import.meta.env.BASE_URL;
+const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
 ---
 <BaseLayout title="エージェント作成を依頼する" description="あなたの業務に合わせたAIエージェントの制作をご依頼いただけます">
   <h1>エージェント作成を依頼する</h1>
@@ -71,7 +80,11 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mojgewyq';
 
   <h2 class="form-heading">依頼フォーム</h2>
 
-  {FORMSPREE_ENDPOINT ? (
+  {!acceptingRequests ? (
+    <p class="notice">
+      現在、新規のご依頼受付を一時的に停止しています。再開まで今しばらくお待ちください。
+    </p>
+  ) : FORMSPREE_ENDPOINT ? (
     <form action={FORMSPREE_ENDPOINT} method="POST" class="request-form">
       <input type="hidden" name="_subject" value="【Agent Lab】エージェント作成のご依頼">
       <input type="hidden" name="_next" value="https://r2030ezwebnejp-cell.github.io/agent-lab/request/thanks/">
@@ -119,6 +132,10 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mojgewyq';
       <label for="notes">その他ご要望</label>
       <textarea id="notes" name="notes" placeholder="任意"></textarea>
 
+      <p class="consent">
+        送信すると、<a href={withBase('privacy/')}>プライバシーポリシー</a>に
+        同意したものとみなされます。
+      </p>
       <button type="submit" class="btn">依頼内容を送信する</button>
     </form>
   ) : (
@@ -215,6 +232,12 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mojgewyq';
     margin-top: 14px;
   }
   .checkbox-row input { width: auto; padding: 0; }
+  .consent {
+    font-size: 0.76rem;
+    color: var(--text-sub);
+    margin: 16px 0 0;
+  }
+  .consent a { color: var(--accent); }
   .btn {
     margin-top: 20px;
     align-self: flex-start;

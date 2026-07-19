@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="利用規約" description="Agent Labのエージェント作成依頼サービスに関する利用規約">
+  <h1>利用規約</h1>
+  <p class="lead">
+    この利用規約は、Agent Lab(以下「当ラボ」)が提供するAIエージェント作成の
+    依頼受付サービス(以下「本サービス」)のご利用条件を定めるものです。
+    本サービスの依頼フォームをご利用いただく際は、本規約に同意いただいたものとします。
+  </p>
+
+  <section>
+    <h2>第1条(サービス内容)</h2>
+    <p class="body">
+      本サービスは、ご依頼いただいた内容に基づき、AIエージェントの設計・構築を
+      個別に検討・ご提案するものです。依頼フォームの送信のみをもって、
+      制作の契約が自動的に成立するものではありません。内容確認・ヒアリングを経て、
+      当ラボと依頼者双方が合意した時点で契約が成立するものとします。
+    </p>
+  </section>
+
+  <section>
+    <h2>第2条(お断りする場合)</h2>
+    <p class="body">
+      以下のいずれかに該当する場合、当ラボは依頼をお断りすることがあります。
+    </p>
+    <ul>
+      <li>依頼内容が当ラボの対応範囲を超えると判断した場合</li>
+      <li>対応可能なキャパシティを超えている場合</li>
+      <li>依頼内容が法令・公序良俗に反すると判断した場合</li>
+      <li>その他、当ラボが対応困難と判断した場合</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>第3条(料金)</h2>
+    <p class="body">
+      料金は依頼内容に応じて個別にお見積りします。金額について依頼者との合意が
+      成立する前に、当ラボが制作作業に着手することはありません。
+    </p>
+  </section>
+
+  <section>
+    <h2>第4条(成果物・知的財産権)</h2>
+    <p class="body">
+      成果物に関する著作権その他の知的財産権の帰属については、個別のご相談の際に
+      取り決めるものとします。
+    </p>
+  </section>
+
+  <section>
+    <h2>第5条(免責事項)</h2>
+    <p class="body">
+      成果物にはAIが生成した内容が含まれる場合があります。当ラボは、成果物の内容が
+      依頼者の特定の目的に完全に適合すること、または誤りが一切ないことを保証するもの
+      ではありません。成果物のご利用は依頼者ご自身の判断と責任において行ってください。
+    </p>
+  </section>
+
+  <section>
+    <h2>第6条(禁止事項)</h2>
+    <ul>
+      <li>虚偽の情報を依頼フォームに入力する行為</li>
+      <li>法令または公序良俗に違反する目的でのご依頼</li>
+      <li>本サービスの運営を妨害する行為</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>第7条(規約の変更)</h2>
+    <p class="body">
+      当ラボは、必要と判断した場合、本規約の内容を変更することがあります。
+      変更後の規約は、本ページに掲載した時点から適用されます。
+    </p>
+  </section>
+
+  <section>
+    <h2>第8条(お問い合わせ)</h2>
+    <p class="body">
+      本規約に関するお問い合わせは、お問い合わせフォームよりご連絡ください。
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 { font-size: 1.5rem; margin: 0 0 8px; }
+  .lead {
+    font-size: 0.9rem;
+    color: var(--text-sub);
+    max-width: 66ch;
+    margin: 0 0 32px;
+    line-height: 1.7;
+  }
+  section { margin-bottom: 26px; }
+  h2 { font-size: 1rem; margin: 0 0 10px; }
+  .body {
+    font-size: 0.88rem;
+    line-height: 1.8;
+    max-width: 68ch;
+    margin: 0 0 10px;
+  }
+  ul {
+    margin: 0;
+    padding-left: 1.3em;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  li {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    max-width: 68ch;
+  }
+</style>
