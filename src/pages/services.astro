@@ -17,13 +17,6 @@ const services = [
     frequency: '毎日',
   },
   {
-    id: '03',
-    name: 'Self Management Agent',
-    purpose: '日々の業務内容をフォームに入力し、週次でまとめて振り返れる形に整理・文書化する。',
-    audience: '自分専用(非公開、社外・社内問わず共有しない)',
-    frequency: '入力: 毎日 / 集計: 週次',
-  },
-  {
     id: '04',
     name: 'Business Email & Document Draft Agent',
     purpose: 'ビジネス現場で通用する英語力(資料作成・メール)を鍛える過程を、コンテンツとして発信する。',
@@ -46,15 +39,15 @@ const services = [
   },
 ];
 ---
-<BaseLayout title="サービス紹介" description="Agent Labで稼働する6体のAIエージェントの紹介">
+<BaseLayout title="サービス紹介" description="Agent Labで稼働する5体のAIエージェントの紹介">
   <h1>サービス紹介</h1>
-  <p class="lead">Agent Labで稼働している6体のエージェントです。それぞれ役割・対象読者・実行頻度を明確に決めて運用しています。</p>
+  <p class="lead">Agent Labで稼働している5体のエージェントです。それぞれ役割・対象読者・実行頻度を明確に決めて運用しています。</p>
 
   <div class="list">
     {services.map((s) => (
       <section class="service">
         <div class="service-head">
-          <h2>{s.id}. {s.name}</h2>
+          <h2>{s.name}</h2>
           <span class="freq">{s.frequency}</span>
         </div>
         <p class="purpose">{s.purpose}</p>

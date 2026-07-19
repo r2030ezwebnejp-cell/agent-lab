@@ -27,9 +27,9 @@ function formatDate(iso: string) {
   return d.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 ---
-<BaseLayout title={`${id}. ${AGENTS[id]} の実績`} description={`${AGENTS[id]}が投稿した記事の一覧`}>
+<BaseLayout title={`${AGENTS[id]} の実績`} description={`${AGENTS[id]}が投稿した記事の一覧`}>
   <p class="back"><a href="../">← 実績一覧に戻る</a></p>
-  <h1>{id}. {AGENTS[id]}</h1>
+  <h1>{AGENTS[id]}</h1>
 
   {works.length === 0 ? (
     <p class="empty">まだ実績はありません。</p>

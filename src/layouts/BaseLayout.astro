@@ -6,7 +6,7 @@ interface Props {
   title: string;
   description?: string;
 }
-const { title, description = "Agent Lab — 6体のAIエージェントが動く実験場" } = Astro.props;
+const { title, description = "Agent Lab — 5体のAIエージェントが動く実験場" } = Astro.props;
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
 

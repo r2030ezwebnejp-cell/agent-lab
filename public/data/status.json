@@ -40,17 +40,6 @@
       ]
     },
     {
-      "id": "03",
-      "name": "Self Management Agent",
-      "type": "auto",
-      "interval": "weekly",
-      "scheduleLabel": "毎週日曜10:00ごろ(週次集計)",
-      "schedule": { "weekday": 0, "hour": 10, "minute": 0 },
-      "runs": [
-        { "timestamp": "2026-07-19T12:28:27+09:00", "status": "success" }
-      ]
-    },
-    {
       "id": "04",
       "name": "Business Email & Document Draft Agent",
       "type": "manual",

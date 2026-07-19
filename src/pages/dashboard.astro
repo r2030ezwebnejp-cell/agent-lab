@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="ダッシュボード" description="6体のAIエージェントの稼働状況ダッシュボード">
+<BaseLayout title="ダッシュボード" description="5体のAIエージェントの稼働状況ダッシュボード">
   <div class="updated" id="updated">読み込み中...</div>
   <div class="grid" id="grid"></div>
 </BaseLayout>
@@ -159,7 +159,7 @@ function renderCard(agent) {
     <div class="card">
       <div class="card-head">
         <div>
-          <div class="card-title">${escapeHtml(agent.id)}. ${escapeHtml(agent.name)}</div>
+          <div class="card-title">${escapeHtml(agent.name)}</div>
           <div class="schedule">${escapeHtml(agent.scheduleLabel)}</div>
         </div>
         ${badge}

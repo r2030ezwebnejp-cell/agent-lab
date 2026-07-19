@@ -25,13 +25,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <p class="desc">自動実行の時刻を変更するリクエストを送ります</p>
         <label>対象エージェント</label>
         <select id="schAgent"></select>
-        <div id="schWeekdayRow" style="display:none">
-          <label>曜日</label>
-          <select id="schWeekday">
-            <option value="0">日曜</option><option value="1">月曜</option><option value="2">火曜</option>
-            <option value="3">水曜</option><option value="4">木曜</option><option value="5">金曜</option><option value="6">土曜</option>
-          </select>
-        </div>
         <label>時刻</label>
         <input type="time" id="schTime" value="20:30">
         <div class="submit-row"><button class="btn" onclick="submitSchedule()">GitHubで送信</button></div>
@@ -194,16 +187,15 @@ const PIN = "XGLH8A";
 const REPO = "r2030ezwebnejp-cell/agents-status-dashboard";
 
 const AGENTS_AUTO = [
-  { id: '01', name: '01. AI Info Gather Agent' },
-  { id: '02', name: '02. Case Study Agent' },
-  { id: '03', name: '03. Self Management Agent(週次)' },
-  { id: '06', name: '06. Business Knowledge Agent' },
+  { id: '01', name: 'AI Info Gather Agent' },
+  { id: '02', name: 'Case Study Agent' },
+  { id: '06', name: 'Business Knowledge Agent' },
 ];
 const AGENTS_NOTE = [
-  { id: '01', name: '01. AI Info Gather Agent' },
-  { id: '02', name: '02. Case Study Agent' },
-  { id: '04', name: '04. Business Email & Document Draft Agent' },
-  { id: '06', name: '06. Business Knowledge Agent' },
+  { id: '01', name: 'AI Info Gather Agent' },
+  { id: '02', name: 'Case Study Agent' },
+  { id: '04', name: 'Business Email & Document Draft Agent' },
+  { id: '06', name: 'Business Knowledge Agent' },
 ];
 
 function tryUnlock() {
@@ -246,9 +238,6 @@ function init() {
 
   const schSel = document.getElementById('schAgent');
   schSel.innerHTML = AGENTS_AUTO.map(a => `<option value="${a.id}">${escapeHtml(a.name)}</option>`).join('');
-  schSel.addEventListener('change', () => {
-    document.getElementById('schWeekdayRow').style.display = schSel.value === '03' ? 'block' : 'none';
-  });
 
   const urlSel = document.getElementById('urlAgent');
   urlSel.innerHTML = AGENTS_NOTE.map(a => `<option value="${a.id}">${escapeHtml(a.name)}</option>`).join('');
@@ -267,9 +256,6 @@ function submitSchedule() {
   const id = document.getElementById('schAgent').value;
   const time = document.getElementById('schTime').value;
   const lines = ['type: schedule', `agent_id: ${id}`, `time: ${time}`];
-  if (id === '03') {
-    lines.push(`weekday: ${document.getElementById('schWeekday').value}`);
-  }
   openIssue(`[schedule] エージェント${id}の実行時刻を${time}に変更`, lines);
 }
 
