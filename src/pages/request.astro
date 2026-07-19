@@ -74,6 +74,8 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mojgewyq';
   {FORMSPREE_ENDPOINT ? (
     <form action={FORMSPREE_ENDPOINT} method="POST" class="request-form">
       <input type="hidden" name="_subject" value="【Agent Lab】エージェント作成のご依頼">
+      <input type="hidden" name="_next" value="https://r2030ezwebnejp-cell.github.io/agent-lab/request/thanks/">
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
 
       <label for="name">お名前 <span class="req">必須</span></label>
       <input type="text" id="name" name="name" required>

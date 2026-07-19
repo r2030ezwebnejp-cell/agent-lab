@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL;
+const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
+---
+<BaseLayout title="ご依頼ありがとうございます" description="エージェント作成のご依頼を受け付けました">
+  <div class="thanks">
+    <h1>ご依頼ありがとうございます</h1>
+    <p class="body">
+      依頼内容を受け付けました。内容を確認のうえ、対応可否やお見積りについて
+      折り返しメールにてご連絡します。
+    </p>
+    <p class="body sub">
+      数日経ってもご連絡がない場合は、お手数ですがお問い合わせフォームからご一報ください。
+    </p>
+    <div class="links">
+      <a class="btn" href={withBase('')}>トップに戻る</a>
+      <a class="link" href={withBase('contact/')}>お問い合わせはこちら</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .thanks {
+    max-width: 60ch;
+  }
+  h1 { font-size: 1.4rem; margin: 0 0 16px; }
+  .body {
+    font-size: 0.92rem;
+    line-height: 1.8;
+    color: var(--text);
+    margin: 0 0 10px;
+  }
+  .body.sub {
+    font-size: 0.85rem;
+    color: var(--text-sub);
+    margin: 0 0 28px;
+  }
+  .links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent);
+    padding: 10px 22px;
+    border-radius: 999px;
+    text-decoration: none;
+  }
+  .btn:hover { opacity: 0.9; }
+  .link {
+    font-size: 0.85rem;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .link:hover { text-decoration: underline; }
+</style>
