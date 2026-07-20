@@ -137,17 +137,6 @@ function renderCard(agent) {
   const runs = agent.runs || [];
   const lastRun = runs.length ? [...runs].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0] : null;
 
-  let badge = '<span class="badge manual">手動</span>';
-  if (agent.type === 'auto') {
-    if (!lastRun) {
-      badge = '<span class="badge warn">未実行</span>';
-    } else if (lastRun.status === 'success') {
-      badge = '<span class="badge ok">正常</span>';
-    } else {
-      badge = '<span class="badge bad">失敗</span>';
-    }
-  }
-
   const rows = [];
   rows.push(row('直近実行', lastRun ? formatDateTime(lastRun.timestamp) + '(' + daysAgoLabel(lastRun.timestamp) + ')' : '記録なし'));
   rows.push(row('累計稼働回数', runs.length + '回'));
@@ -161,7 +150,6 @@ function renderCard(agent) {
         <div>
           <div class="card-title">${escapeHtml(agent.name)}</div>
         </div>
-        ${badge}
       </div>
       ${rows.join('')}
       <a class="detail-link" href="../agents/${escapeHtml(agent.id)}/">詳細を見る →</a>

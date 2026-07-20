@@ -150,12 +150,11 @@ function formatDateTime(iso: string) {
     ) : (
       <div class="table-wrap">
         <table>
-          <thead><tr><th>日時</th><th>ステータス</th></tr></thead>
+          <thead><tr><th>日時</th></tr></thead>
           <tbody>
             {history.map((r: any) => (
               <tr>
                 <td>{formatDateTime(r.timestamp)}</td>
-                <td><span class={`badge ${r.status}`}>{r.status === 'success' ? '正常' : '失敗'}</span></td>
               </tr>
             ))}
           </tbody>
