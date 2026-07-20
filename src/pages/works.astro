@@ -40,7 +40,7 @@ const summaries = AGENTS.map((a) => {
 const base = import.meta.env.BASE_URL;
 const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
 ---
-<BaseLayout title="実績一覧" description="Agent Labが生成したnote記事の実績サマリー">
+<BaseLayout title="note記事" description="Agent Labが生成したnote記事の実績サマリー">
   <h1>note記事</h1>
   <p class="lead">エージェントごとの投稿実績です。「記事一覧を見る」をクリックすると、投稿したnote記事へのリンクがあります。</p>
 

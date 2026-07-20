@@ -32,7 +32,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       <div class="card">
         <h2>note公開URLの紐付け</h2>
-        <p class="desc">実績一覧ページに表示する、公開後のnote記事URLを登録します</p>
+        <p class="desc">note記事ページに表示する、公開後のnote記事URLを登録します</p>
         <label>対象エージェント</label>
         <select id="urlAgent"></select>
         <label>下書きの日付</label>
@@ -50,7 +50,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <label>日付</label>
         <input type="date" id="newsDate">
         <label>タイトル</label>
-        <input type="text" id="newsTitle" placeholder="例: 実績一覧ページを追加しました">
+        <input type="text" id="newsTitle" placeholder="例: note記事ページを追加しました">
         <label>本文</label>
         <textarea id="newsBody"></textarea>
         <div class="submit-row"><button class="btn" onclick="submitNews()">GitHubで送信</button></div>
