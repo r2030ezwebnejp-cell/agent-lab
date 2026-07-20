@@ -79,8 +79,10 @@ const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
     </div>
   </section>
 
-  <h2 class="form-heading">依頼フォーム</h2>
   </div>
+
+  <div class="form-section">
+  <h2 class="form-heading">依頼フォーム</h2>
 
   {!acceptingRequests ? (
     <p class="notice">
@@ -145,6 +147,7 @@ const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
   ) : (
     <p class="notice">現在依頼フォームは準備中です。</p>
   )}
+  </div>
 </BaseLayout>
 
 <script is:inline>
@@ -208,16 +211,19 @@ const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
   .faq { display: flex; flex-direction: column; gap: 14px; }
   .faq-item .q { font-size: 0.88rem; font-weight: 700; margin: 0 0 4px; }
   .faq-item .a { font-size: 0.86rem; color: var(--text-sub); line-height: 1.7; margin: 0; }
-  .form-heading { font-size: 1.05rem; margin: 32px 0 14px; }
-  .form-panel {
+  .form-section {
     width: calc(50vw + 52px);
     max-width: 100%;
     margin: 0 auto;
+  }
+  .form-heading { font-size: 1.05rem; margin: 32px 0 14px; }
+  .form-panel {
+    width: 100%;
+    box-sizing: border-box;
     background: #fff;
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 24px 26px;
-    box-sizing: border-box;
   }
   .request-form {
     display: flex;
@@ -279,6 +285,6 @@ const withBase = (p: string) => `${base.endsWith('/') ? base : base + '/'}${p}`;
     color: var(--text-sub);
   }
   @media (max-width: 640px) {
-    .form-panel { width: 100%; }
+    .form-section { width: 100%; }
   }
 </style>
